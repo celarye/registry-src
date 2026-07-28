@@ -1,0 +1,14 @@
+[package]
+name = "automod"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde.workspace = true
+sonic-rs.workspace = true
+twilight-http = { git = "https://github.com/wpbs-rs/twilight" }
+twilight-model = { git = "https://github.com/wpbs-rs/twilight" }
+wit-bindgen.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
