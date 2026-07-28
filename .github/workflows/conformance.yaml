@@ -15,6 +15,11 @@ jobs:
     steps:
       - name: Checkout Branch
         uses: actions/checkout@v6
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
+          components: clippy,rustfmt
       - name: Run Clippy Checks
         run: cargo clippy --locked -- -W clippy::pedantic -D warnings
       - name: Run rustfmt Checks
