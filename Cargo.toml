@@ -1,0 +1,14 @@
+[workspace]
+resolver = "3"
+members = []
+
+[workspace.dependencies]
+serde = { version = "1.0.229", features = ["derive"] }
+sonic-rs = "0.5.8"
+wit-bindgen = "0.60"
+wstd = "0.6.8"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
