@@ -18,7 +18,7 @@ use twilight_model::{
     util::Timestamp,
 };
 
-use crate::{
+use crate::bindgen::{
     exports::wpbs::plugin::{
         core_export_functions::Guest as CoreGuest, discord_export_functions::Guest as DiscordGuest,
         job_scheduler_export_functions::Guest as JobSchedulerGuest,
@@ -33,7 +33,14 @@ use crate::{
     },
 };
 
-wit_bindgen::generate!({ path: "../wit" });
+#[allow(clippy::same_length_and_capacity)]
+mod bindgen {
+    use crate::Plugin;
+
+    wit_bindgen::generate!({ path: "../wit" });
+
+    export!(Plugin);
+}
 
 struct Plugin {}
 
@@ -99,10 +106,12 @@ impl Actions {
         true
     }
 
+    #[allow(clippy::unnecessary_wraps)]
     fn message_default() -> Option<ActionsMessage> {
         Some(ActionsMessage::default())
     }
 
+    #[allow(clippy::unnecessary_wraps)]
     fn user_default() -> Option<ActionsUser> {
         Some(ActionsUser::default())
     }
@@ -200,7 +209,7 @@ impl CoreGuest for Plugin {
 
         if let Err(err) = set_state("settings", &sonic_rs::to_vec(&settings).unwrap()) {
             return Err(format!("An error while storing the settings: {err}"));
-        };
+        }
 
         Ok(())
     }
@@ -408,7 +417,7 @@ impl Plugin {
             match user_action {
                 ActionsUser::Ban => embed_description.push_str("\n- User banned"),
                 ActionsUser::TimeOut(period) => {
-                    let _ = write!(embed_description, "\n- User timed out for {period} seconds",);
+                    let _ = write!(embed_description, "\n- User timed out for {period} seconds");
                 }
             }
         }
@@ -564,5 +573,3 @@ impl Plugin {
         }
     }
 }
-
-export!(Plugin);
